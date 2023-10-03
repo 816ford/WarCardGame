@@ -68,12 +68,15 @@ def warPlaceCard(hand):
 def doWar(hand):
     for i in range(4):
         warPlaceCard(hand)
+
+    
     
 
 #snip from cody
 playAgain = input("would you like to start? (y or n) ")
 while playAgain == "y":
     middle = []
+    war = []
     #places a crad from each players hand
     for player in range(players):
         placeCard(hands[player])
@@ -81,6 +84,7 @@ while playAgain == "y":
     print(middle)
 
     def winCheck():
+        global middle, hands, war
         if middle[0] > middle[1]:
             hands[0].extend(middle)
             print("player 1 won that round!")
@@ -90,21 +94,29 @@ while playAgain == "y":
         else:
             print("Its a tie time for War!")
             for player in range(players):
-                war(hands[player])
+                doWar(hands[player])
+            print(war)
+            warWinCheck()
                 
     def warWinCheck():
-        if war[0] > war[1]:
+        global middle, hands, war
+        if war[3] > war[7]:
+            hands[0].extend(war)
             hands[0].extend(middle)
             print("player 1 won that round!")
-        elif war[1] > war[0]:
+        elif war[7] > war[3]:
+            hands[1].extend(war)
             hands[1].extend(middle)
             print("player 2 won that round!")
         else:
+            middle.extend(war)
+            war = []
             print("Its a tie time for War!")
             for player in range(players):
-                war(hands[player])
+                doWar(hands[player])
 
     winCheck()
+    
 
     for player in range(players):
         print(hands[player])
