@@ -2,6 +2,7 @@
 # September 6th, 2023
 # War Card Game
 
+import math
 import random
 
 # Step 1
@@ -24,33 +25,92 @@ J = 11
 
 # Initialize the deck with value only.
 deck = [2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, J, J, J, J, Q, Q, Q, Q, K, K, K, K, A, A, A, A]
+
 middle = []
-warPile = []
+
+war = []
+
 # Create hands for each player -- what if there's only 2 players or 3?
-hands = [
-    [], [], [], []
-]
+hands = []
 
 # random card from deck goes to each player until deck is empty, as evenly as possible
 def deal():
+    global deck
+    currentHand = []
+    cardsPerHand = math.floor(len(deck) / players)
+    cardsToIssueInHand = cardsPerHand
+    for i in range(players):
+        cardsToIssueInHand = cardsPerHand
+        while cardsToIssueInHand > 0:
+            currentHand.append(deck.pop(random.randint(0, len(deck) - 1)))
+            cardsToIssueInHand -= 1
+        hands.append(currentHand)
+        currentHand = []
+    extraCardsCurrentHand = 0
     while len(deck) > 0:
-        for player in range(players):
-            dealt_card = deck.pop(random.randint(0, len(deck)-1))
-            hands[player].append(dealt_card)
+        hands[extraCardsCurrentHand % players].append(deck.pop(random.randint(0, len(deck) - 1)))
+        extraCardsCurrentHand += 1
+        if len(deck) == 0:
+            break
 
 deal()
+
+print(hands)
+for hand in hands:
+    print(len(hand))
 
 def placeCard(hand):
     middle.append(hand.pop(0))
 
-def war(hand):
+def warPlaceCard(hand):
+    war.append(hand.pop(0))
+
+def doWar(hand):
     for i in range(4):
-        middle.extend(warPile)
-        warPile.clear()
-        warPile.append(hand.pop(0))
+        warPlaceCard(hand)
+    
 
+#snip from cody
+playAgain = input("would you like to start? (y or n) ")
+while playAgain == "y":
+    middle = []
+    #places a crad from each players hand
+    for player in range(players):
+        placeCard(hands[player])
 
-'''
-for player in range(players):
-    print(hands[player])
-'''
+    print(middle)
+
+    def winCheck():
+        if middle[0] > middle[1]:
+            hands[0].extend(middle)
+            print("player 1 won that round!")
+        elif middle[1] > middle[0]:
+            hands[1].extend(middle)
+            print("player 2 won that round!")
+        else:
+            print("Its a tie time for War!")
+            for player in range(players):
+                war(hands[player])
+                
+    def warWinCheck():
+        if war[0] > war[1]:
+            hands[0].extend(middle)
+            print("player 1 won that round!")
+        elif war[1] > war[0]:
+            hands[1].extend(middle)
+            print("player 2 won that round!")
+        else:
+            print("Its a tie time for War!")
+            for player in range(players):
+                war(hands[player])
+
+    winCheck()
+
+    for player in range(players):
+        print(hands[player])
+    playAgain = input("would you like to play the next round (y or n) ")
+else:
+    if len(hands[0]) > len(hands[1]):
+        print("player 1 won!")
+    else:
+        print("player 2 won!")
