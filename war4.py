@@ -62,58 +62,26 @@ for hand in hands:
 #also need to figure out how to remove the player from the game if they have no more cards
 def placeCard(hand):
     global players
-    middle.append(hand.pop(0))
+    if len(hand) == 0:
+        players -= 1
+        exit
+    else:
+        middle.append(hand.pop(0))
 
 def warPlaceCard(hand):
     global players
-    war.append(hand.pop(0))
+    if len(hand) == 0:
+        players -= 1
+        exit
+    else:
+        war.append(hand.pop(0))
 
 def doWar(hand):
-    for i in range(players):
+    for i in range(4):
         warPlaceCard(hand)
 
     
-def noCards():
-    global players
-    if players == 2:
-        if len(hands[0]) == 0:
-            print("Player 1 has no more cards!")
-            hands.remove(hands[0])
-            players -= 1
-        elif len(hands[1]) == 0:
-            print("Player 2 has no more cards!")
-            hands.remove(hands[1])
-            players -= 1
-    elif players == 3:
-        if len(hands[0]) == 0:
-            print("Player 1 has no more cards!")
-            hands.remove(hands[0])
-            players -= 1
-        elif len(hands[1]) == 0:
-            print("Player 2 has no more cards!")
-            hands.remove(hands[1])
-            players -= 1
-        elif len(hands[2]) == 0:
-            print("Player 3 has no more cards!")
-            hands.remove(hands[2])
-            players -= 1
-    elif players == 4:
-        if len(hands[0]) == 0:
-            print("Player 1 has no more cards!")
-            hands.remove(hands[0])
-            players -= 1
-        elif len(hands[1]) == 0:
-            print("Player 2 has no more cards!")
-            hands.remove(hands[1])
-            players -= 1
-        elif len(hands[2]) == 0:
-            print("Player 3 has no more cards!")
-            hands.remove(hands[2])
-            players -= 1
-        elif len(hands[3]) == 0:
-            print("Player 4 has no more cards!")
-            hands.remove(hands[3])
-            players -= 1
+    
 
 #snip from cody
 playAgain = input("would you like to start? (y or n) ")
@@ -129,7 +97,7 @@ while playAgain == "y":
     def winCheck():
         global middle, hands, war, players
         if players == 2:
-            
+
             if middle[0] > middle[1]:
                 hands[0].extend(middle)
                 print("player 1 won that round!")
@@ -174,19 +142,15 @@ while playAgain == "y":
             if middle[0] > middle[1] and middle[0] > middle[2] and middle[0] > middle[3]:
                 hands[0].extend(middle)
                 print("player 1 won that round!")
-                noCards()
             elif middle[1] > middle [0] and middle[1] > middle[2] and middle[1] > middle[3]:
                 hands[1].extend(middle)
                 print("player 2 won that round!")
-                noCards()
             elif middle[2]>middle[0] and middle[2]>middle[1] and middle[2]>middle[3]:
                 hands[2].extend(middle)
                 print("player 3 won that round!")
-                noCards()
             elif middle[3]>middle[0] and middle[3]>middle[1] and middle[3]>middle[2]:
                 hands[3].extend(middle)
                 print("player 4 won that round!")
-                noCards()
             else:
                 print("Its a tie time for War!")
                 if middle[0] == middle[1]:
@@ -194,221 +158,185 @@ while playAgain == "y":
                     doWar(hands[1])
                     print(war)
                     warWinCheck()
-                    noCards()
                 elif middle[0] == middle[2]:
                     doWar(hands[0])
                     doWar(hands[2])
                     print(war)
                     warWinCheck()
-                    noCards()
                 elif middle[0] == middle[3]:
                     doWar(hands[0])
                     doWar(hands[3])
                     print(war)
                     warWinCheck()
-                    noCards()
                 elif middle[1] == middle[2]:
                     doWar(hands[1])
                     doWar(hands[2])
                     print(war)
                     warWinCheck()
-                    noCards()
                 elif middle[1] == middle[3]:
                     doWar(hands[1])
                     doWar(hands[3])
                     print(war)
                     warWinCheck()
-                    noCards()
                 else:
                     doWar(hands[2])
                     doWar(hands[3])
                     print(war)
                     warWinCheck()
-                    noCards()
                 
     def warWinCheck():
         global middle, hands, war
         if players == 2:
 
-            if war[3] > war[len(war) - 1]:
+            if war[3] > war[7]:
                 hands[0].extend(war)
                 hands[0].extend(middle)
                 print("player 1 won that round!")
-                noCards()
-            elif war[len(war)-1] > war[3]:
+            elif war[7] > war[3]:
                 hands[1].extend(war)
                 hands[1].extend(middle)
                 print("player 2 won that round!")
-                noCards()
             else:
                 middle.extend(war)
                 war = []
                 print("Its a tie time for War!")
                 doWar(hands[0])
                 doWar(hands[1])
-                noCards()
         if players == 3 and middle[0] == middle[1]:
-            if war[3] > war[len(war) - 1]:
+            if war[3] > war[7]:
                 hands[0].extend(war)
                 hands[0].extend(middle)
                 print("player 1 won that round!")
-                noCards()
-            elif war[len(war)-1] > war[3]:
+            elif war[7] > war[3]:
                 hands[1].extend(war)
                 hands[1].extend(middle)
                 print("player 2 won that round!")
-                noCards()
             else:
                 middle.extend(war)
                 war = []
                 print("Its a tie time for War!")
                 doWar(hands[0])
                 doWar(hands[1])
-                noCards()
         if players == 3 and middle[0] == middle[2]:
-            if war[3] > war[len(war) - 1]:
+            if war[3] > war[7]:
                 hands[0].extend(war)
                 hands[0].extend(middle)
                 print("player 1 won that round!")
-                noCards()
-            elif war[len(war)-1] > war[3]:
+            elif war[7] > war[3]:
                 hands[2].extend(war)
                 hands[2].extend(middle)
                 print("player 2 won that round!")
-                noCards()
             else:
                 middle.extend(war)
                 war = []
                 print("Its a tie time for War!")
                 doWar(hands[0])
                 doWar(hands[2])
-                noCards()
         if players == 3 and middle[1] == middle[2]:
-            if war[3] > war[len(war) - 1]:
+            if war[3] > war[7]:
                 hands[1].extend(war)
                 hands[1].extend(middle)
                 print("player 1 won that round!")
-                noCards()
-            elif war[len(war)-1] > war[3]:
+            elif war[7] > war[3]:
                 hands[2].extend(war)
                 hands[2].extend(middle)
                 print("player 2 won that round!")
-                noCards()
             else:
                 middle.extend(war)
                 war = []
                 print("Its a tie time for War!")
                 doWar(hands[1])
                 doWar(hands[2])
-                noCards()
         if players == 4 and middle[0] == middle[1]:
-            if war[3] > war[len(war) - 1]:
+            if war[3] > war[7]:
                 hands[0].extend(war)
                 hands[0].extend(middle)
                 print("player 1 won that round!")
-                noCards()
-            elif war[len(war)-1] > war[3]:
+            elif war[7] > war[3]:
                 hands[1].extend(war)
                 hands[1].extend(middle)
                 print("player 2 won that round!")
-                noCards()
             else:
                 middle.extend(war)
                 war = []
                 print("Its a tie time for War!")
                 doWar(hands[0])
                 doWar(hands[1])
-                noCards()
         if players == 4 and middle[0] == middle[2]:
-            if war[3] > war[len(war) - 1]:
+            if war[3] > war[7]:
                 hands[0].extend(war)
                 hands[0].extend(middle)
                 print("player 1 won that round!")
-                noCards()
-            elif war[len(war)-1] > war[3]:
+            elif war[7] > war[3]:
                 hands[2].extend(war)
                 hands[2].extend(middle)
                 print("player 3 won that round!")
-                noCards()
             else:
                 middle.extend(war)
                 war = []
                 print("Its a tie time for War!")
                 doWar(hands[0])
                 doWar(hands[2])
-                noCards()
         if players == 4 and middle[0] == middle[3]:
-            if war[3] > war[len(war)-1]:
+            if war[3] > war[7]:
                 hands[0].extend(war)
                 hands[0].extend(middle)
                 print("player 1 won that round!")
-                noCards()
-            elif war[len(war)-1] > war[3]:
+            elif war[7] > war[3]:
                 hands[3].extend(war)
                 hands[3].extend(middle)
                 print("player 4 won that round!")
-                noCards()
             else:
                 middle.extend(war)
                 war = []
                 print("Its a tie time for War!")
                 doWar(hands[0])
                 doWar(hands[3])
-                noCards()
         if players == 4 and middle[1] == middle[2]:
-            if war[3] > war[len(war)-1]:
+            if war[3] > war[7]:
                 hands[1].extend(war)
                 hands[1].extend(middle)
                 print("player 2 won that round!")
-                noCards()
-            elif war[len(war)-1] > war[3]:
+            elif war[7] > war[3]:
                 hands[2].extend(war)
                 hands[2].extend(middle)
                 print("player 3 won that round!")
-                noCards()
             else:
                 middle.extend(war)
                 war = []
                 print("Its a tie time for War!")
                 doWar(hands[1])
                 doWar(hands[2])
-                noCards()
         if players == 4 and middle[1] == middle[3]:
-            if war[3] > war[len(war)-1]:
+            if war[3] > war[7]:
                 hands[1].extend(war)
                 hands[1].extend(middle)
                 print("player 2 won that round!")
-                noCards()
-            elif war[len(war)-1] > war[3]:
+            elif war[7] > war[3]:
                 hands[3].extend(war)
                 hands[3].extend(middle)
                 print("player 4 won that round!")
-                noCards()
             else:
                 middle.extend(war)
                 war = []
                 print("Its a tie time for War!")
                 doWar(hands[1])
                 doWar(hands[3])
-                noCards()
         if players == 4 and middle[2] == middle[3]:
-            if war[3] > war[len(war)-1]:
+            if war[3] > war[7]:
                 hands[2].extend(war)
                 hands[2].extend(middle)
                 print("player 3 won that round!")
-                noCards()
-            elif war[len(war)-1] > war[3]:
+            elif war[7] > war[3]:
                 hands[3].extend(war)
                 hands[3].extend(middle)
                 print("player 4 won that round!")
-                noCards()
             else:
                 middle.extend(war)
                 war = []
                 print("Its a tie time for War!")
                 doWar(hands[2])
                 doWar(hands[3])
-                noCards()
         
 
     winCheck()
